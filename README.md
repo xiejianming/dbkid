@@ -6,7 +6,7 @@ Simple debugging facilities.
 ### Not-A-Real-Debugger
 This is not really a debugger, so it cannot use to step through code executions
 ### Only-To-Capture-Running-Values
-This simple took kit is only a convenient way to capture values when running code.
+This simple tool kit is only a convenient way to capture values when running code.
 ### Has-Limits
 This is not a perfect tool - it has its own limits. E.g. cannot capture binding Vars. 
 ### Let-Me-No....
@@ -16,27 +16,24 @@ Please let me(xiejianming@gmail.com) know if you have anything (or bug report) t
 There are two tools to help investigate values during executing: 'dbk' & '?', and their own switch: 'db'(debug) & 'bp'(break-point).
 
 ### 1 use dbkid.core
-E.g. 
-=========================
-(use 'dbkid.core)
-=========================
+E.g. (use 'dbkid.core)
+
 ### 2 use 'dbk' - a convenient printing function
 E.g.
-=========================
+
 (let [x 123 y (range 10)]
    (dbk x y (map #(* % %) y))
    "Done!")
-=========================
+
 then we will get:
 Debug: 2013-03-20 00:42:47 in NO_SOURCE_PATH@2: {x => 123, y => (0 1 2 3 4 5 6 7 ...), (map (fn* [p1__1420#] (* p1__1420# p1__1420#)) y) => (0 1 4 9 16 25 36 49 ...)}
 "Done!"
 #### 2.1 turn off dbk
-=========================
 (db)
 (let [x 123 y (range 10)]
      (dbk x y (map #(* % %) y))
      "Done!")
-=========================
+     
 and now we get:
 DBK is now Disabled!
 nil
@@ -46,7 +43,7 @@ just "(db)" it again....
 
 ### 3 use '?' - an interactive "break-point"
 Try following code:
-=========================
+
 (def ^:dynamic xx 111111)
 (binding [xx "this is xx"]
   (let [a 123 b (defn tt[] (println a)) e [1 tt 3 (println 999)]]
@@ -56,7 +53,6 @@ Try following code:
       (println d) (println e) (println f)
       (println g) (println h)
       (? println xx))))
-=========================
 
 Note: if above code doesn't surprise you, please turn on '?' and then try them again.
 
