@@ -93,9 +93,9 @@ When you see a prompt, following instructions make bp work its way:
 - '?' - print the current line info of break-point 
 - 'l' - list locals
 - 'll' - list 'global' Vars
-- local and var's name - print the value of given local/var
-- normal clojure form - eval the given form
-- ESC or ENTER - get through current break point
+- local/var name(e.g. 'a' in above example) - print the value of given local/var
+- normal clojure form(e.g. '(bp)' to turn it off in following executions) - eval the given form
+- ENTER - get through current break point
 
 ## License
 
