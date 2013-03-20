@@ -4,16 +4,31 @@ Simple debugging facilities.
 
 ## Note
 ### Not-A-Real-Debugger
-This is not really a debugger, so it cannot use to step through code executions
+This is not really a debugger, so it cannot be used to step through code executions.
 ### Only-To-Capture-Running-Values
-This simple tool kit is only a convenient way to capture values when running code.
+This simple tool kit only offers a convenient way to capture values when running code.
 ### Has-Limits
 This is not a perfect tool - it has its own limits. E.g. cannot capture binding Vars. 
 ### Let-Me-No....
 Please let me(xiejianming@gmail.com) know if you have anything (or bug report) to say....
 
 ## Usage
-There are two tools to help investigate values during executing: 'dbk' & '?', and their own switch: 'db'(debug) & 'bp'(break-point).
+### Briefing...
+There are two functions(well, they are macros actually) can help to investigate values during execution; and along with their own switches:
+- 'dbk' with switch of 'db' (debug)
+- '?' with switch of 'bp' (break-point)
+
+We can use them in two scenarios:
+- to print values in code by using function 'dbk'
+- by using '?', we can stop execution at some point so that we can query the runtime env.
+
+in both cases, you can use
+
+     (db)
+     ;; or
+     (bp)
+     
+to turn off them - so that you can shutup them and it's safe to leave any 'dbk'/'?' in your code.
 
 ### 1 use dbkid.core
 E.g. 
