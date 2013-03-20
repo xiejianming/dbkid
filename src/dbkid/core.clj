@@ -3,14 +3,14 @@
 
 (ns dbkid.core)
 
-(defn now
+(defn- now
   "Get current time in format <yyyy-MM-dd HH:mm:ss>."
   []
   (.format 
     (java.text.SimpleDateFormat. "yyyy-MM-dd HH:mm:ss")
     (.getTime (java.util.Calendar/getInstance))))
 
-(def ^:dynamic *debug-flag* (atom true))
+(def ^{:dynamic true :private true} *debug-flag* (atom true))
 
 (defn db 
   "Disable/Enable DBK which used to print debug info."
@@ -18,7 +18,7 @@
   (reset! *debug-flag* (not @*debug-flag*)) 
   (println (str "DBK is now " (if @*debug-flag* "Enabled!" "Disabled!"))))
 
-(def ^:dynamic *debug-print-length* (atom 8))
+(def ^{:dynamic true :private true} *debug-print-length* (atom 8))
 
 (defn set-print-length [^long l] (reset! *debug-print-length* l))
 
@@ -36,7 +36,7 @@
                                                        (vector ~@variables)))))]
              (println (str naked-msg# ":") kvs#)))))))
 
-(def ^:dynamic *breakpoint-flag* (atom true))
+(def ^{:dynamic true :private true} *breakpoint-flag* (atom true))
 
 (defn bp 
   "Disable/Enable break-points."
@@ -65,7 +65,7 @@
     (binding [*print-length* (deref *debug-print-length*)]
       (let [prompt #(do (print ">: ") (flush) (read-line))]
         (loop [cmd (prompt)]
-          (if (or (= cmd "q") (= cmd ""))
+          (if (= cmd "")
             (rest &form)
             (do
               (case cmd
