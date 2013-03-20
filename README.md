@@ -97,7 +97,7 @@ When you see a prompt, following instructions make bp work its way:
 - normal clojure form(e.g. '(bp)' to turn it off in following executions) - eval the given form
 - ENTER - get through current break point
 
-## License
+## License 
 
 Copyright (c) xjm (xiejianming@gmail.com). All rights reserved.
 
