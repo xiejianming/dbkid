@@ -28,7 +28,7 @@ in both cases, you can use
      ;; or
      (bp)
      
-to turn off them - so that you can shutup them and it's safe to leave any 'dbk'/'?' in your code.
+to turn off them - so that you can shut them up and it's safe to leave any 'dbk'/'?' in your code.
 
 ### 1 use dbkid.core
 E.g. 
@@ -90,12 +90,12 @@ Use
 to turn on/off break-point
 #### 3.2 bp instructions
 When you see a prompt, following instructions make bp work its way:
-- 1) '?' - print the current line info of break-point 
-- 2) 'l' - list locals
-- 3) 'll' - list 'global' Vars
-- 4) local and var's name - print the value of given local/var
-- 5) normal clojure form - eval the given form
-- 6) 'q' or ESC or ENTER - get through current break point
+- '?' - print the current line info of break-point 
+- 'l' - list locals
+- 'll' - list 'global' Vars
+- local and var's name - print the value of given local/var
+- normal clojure form - eval the given form
+- ESC or ENTER - get through current break point
 
 ## License
 
