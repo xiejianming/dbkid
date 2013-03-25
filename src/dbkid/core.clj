@@ -45,6 +45,21 @@
   (println (str "Break points are now "
                 (if @*breakpoint-flag* "Enabled!" "Disabled!"))))
 
+(defmacro ?
+  "Print parameters' value in the form."
+  [& forms]      
+  `(do (if (deref *breakpoint-flag*)
+         (let [datetime# ~(now)
+               naked-msg# (str "Debug: " datetime# " in " ~*file* "@" ~(:line (meta &form)))]
+           (if (empty? '~(rest (rest &form)))
+             (println naked-msg#)
+             (binding [*print-length* (deref *debug-print-length*)]
+               (let [kvs# (into {} (map vec (partition 2 (interleave 
+                                                           (map #(str % " =>") '~(rest (rest &form)))
+                                                           (vector ~@(rest (rest &form)))))))]
+                 (println (str naked-msg# ":") kvs#))))))
+     ~(rest &form)))
+
 (defn- eeval 
   [expr]
   (let [tp (type expr)]
@@ -59,26 +74,25 @@
       (= tp clojure.lang.Compiler$FnExpr) "#local_fn#"
       (= tp clojure.lang.Compiler$MapExpr) (.eval expr))))
 
-(defmacro ?
+(defmacro ??
   [& forms]
-  (if (deref *breakpoint-flag*)
-    (binding [*print-length* (deref *debug-print-length*)]
-      (let [prompt #(do (print ">: ") (flush) (read-line))]
-        (loop [cmd (prompt)]
-          (if (= cmd "")
-            (rest &form)
-            (do
-              (case cmd
-                "?" (println (str *file* "@" (:line (meta &form))))
-                "l" (println (vec (sort (keys &env))))
-                "ll" (println (vec (sort (keys (ns-interns *ns*)))))
-                (let [s (read-string cmd) lb (if &env (&env s) nil)]
-                  (print (str cmd ": "))
-                  (try
-                    (if lb
-                      (println (eeval (.init lb)))
-                      (println (eval s)))
-                    (catch Exception e
-                      (println (.getMessage e))))))
-              (recur (prompt)))))))
-    (rest &form)))
+  (binding [*print-length* (deref *debug-print-length*)]
+    (let [prompt #(do (print ">: ") (flush) (read-line))]
+      (loop [cmd (prompt)]
+        (if (= cmd "")
+          (rest &form)
+          (do
+            (case cmd
+              "?" (println (str *file* "@" (:line (meta &form))))
+              "l" (println (vec (sort (keys &env))))
+              "ll" (println (vec (sort (keys (ns-interns *ns*)))))
+              (let [s (read-string cmd) lb (if &env (&env s) nil)]
+                (print (str cmd ": "))
+                (try
+                  (if lb
+                    (println (eeval (.init lb)))
+                    (println (eval s)))
+                  (catch Exception e
+                    (println (.getMessage e))))))
+            (recur (prompt)))))))
+  (rest &form))
