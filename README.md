@@ -14,15 +14,16 @@ Please let me(xiejianming@gmail.com) know if you have anything (or bug report) t
 
 ## Usage
 ### Briefing...
-There are two functions(well, they are macros actually) can help to investigate values during execution; and along with their own switches:
+There are three functions(well, they are macros actually) can help to investigate values during execution; and along with their own switches:
 - 'dbk' with switch of 'db' (debug)
-- '?' with switch of 'bp' (break-point)
+- '?' with switch of 'bp' (simplified 'dbk')
+- '??' a function to let you stop execution and query the runtime env.
 
 We can use them in two scenarios:
-- to print values in code by using function 'dbk'
-- by using '?', we can stop execution at some point so that we can query the runtime env.
+- to print values in code by using function 'dbk' or '?'
+- by using '??', we can stop execution at some point so that we can query the runtime env.
 
-in both cases, you can use
+when using print functions, you can use
 
      (db)
      ;; or
@@ -67,7 +68,30 @@ just
      
 it again....
 
-### 3 use '?' - an interactive "break-point"
+### 3 use '?' - a simply put to print parameters
+in most cases, it's tedious to always type 'dbk' clause to make a printing, and thus we offer '?': a simplified print function with a little adjustment on its functionality.
+
+     (let [a 1 b 2 c (range 10)] (println a b c))
+     
+when we want to print values of a, b & c(or any of them), we can just put a question mark in front of 'println':
+
+     (let [a 1 b 2 c (range 10)] (? println a b c))
+
+check the result of above code in your REPL. If you find nothing, then try to turn it on by:
+
+     (bp)
+
+as 'db', 'bp' has similiar effect to '?'.
+
+### 4 differences between 'dbk' and '?'
+basically, they are the same but:
+- 'dbk' is of more free to print what you want but need more typing and construction in your code(just like inserting a 'print' in your code)
+- '?' is convenient but with limits:
+     - it can be put only in front of a function call
+     - it only prints parameter(s) given to that function
+note that they both has a switch to turn on/off the printing function.
+
+### 5 use '??' - an interactive "break-point"
 Try following code:
 
      (def ^:dynamic xx 111111)
@@ -80,22 +104,28 @@ Try following code:
             (println g) (println h)
             (? println xx))))
 
-Note: if above code doesn't surprise you, please turn on '?' and then try them again.
+when you see a promt, type instructions to find more(see below section).
 
-#### 3.1 turn on/off break-point
-Use 
-
-     (bp)
-
-to turn on/off break-point
-#### 3.2 bp instructions
-When you see a prompt, following instructions make bp work its way:
+#### 5.1 '??' instructions
+When you see a prompt, following instructions make '??' work its way:
 - '?' - print the current line info of break-point 
 - 'l' - list locals
-- 'll' - list 'global' Vars
+- 'll' - list 'global'(within namespace) Vars
 - local/var name(e.g. 'a' in above example) - print the value of given local/var
-- normal clojure form(e.g. '(bp)' to turn it off in following executions) - eval the given form
+- normal clojure form(e.g. '(bp)' to turn '?' off in following executions) - eval the given form
 - ENTER - get through current break point
+
+### bonus: 'set-print-length' function to control length of a list's printing
+e.g.
+
+     (set-print-length 5)
+     
+will sent printing of list to length of 5:
+
+     Debug: 2013-03-25 20:56:18 in NO_SOURCE_PATH@863: {(range 10) => (0 1 2 3 4 ...)}
+     (0 1 2 3 4 5 6 7 8 9)
+     nil
+
 
 ## License 
 
