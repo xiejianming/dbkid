@@ -102,7 +102,7 @@ Try following code:
             (println a) (println b) (println c)
             (println d) (println e) (println f)
             (println g) (println h)
-            (? println xx))))
+            (?? println xx))))
 
 when you see a promt, type instructions to find more(see below section).
 
