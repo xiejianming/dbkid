@@ -26,7 +26,7 @@
   "Print debug info(universal/global debugger)."
   [& variables]      
   `(if (deref *debug-flag*)
-    (let [datetime# ~(now)
+    (let [datetime# (now)
           naked-msg# (str "Debug: " datetime# " in " ~*file* "@" ~(:line (meta &form)))]
       (if (empty? '~variables)
         (println naked-msg#)
@@ -49,7 +49,7 @@
   "Print parameters' value in the form."
   [& forms]      
   `(do (if (deref *breakpoint-flag*)
-         (let [datetime# ~(now)
+         (let [datetime# (now)
                naked-msg# (str "Debug: " datetime# " in " ~*file* "@" ~(:line (meta &form)))]
            (if (empty? '~(rest (rest &form)))
              (println naked-msg#)
